@@ -1,0 +1,103 @@
+import ply.yacc as yacc
+from lex import tokens
+import AST
+
+operations = {
+    '+' : lambda x,y: x+y,
+    '-' : lambda x,y: x-y,
+    '/' : lambda x,y: x/y,
+    '*' : lambda x,y: x*y,
+}
+
+precedence = (
+    ('left', 'ADD_OP'),
+    ('left', 'MUL_OP'),
+    ('right', 'UMINUS'),
+)
+
+def parse(program):
+    return yacc.parse(program)
+
+def exp_decorator(decorated_func):
+    def wrapper_expression_decorator(*args):
+        print("deco : ", args)
+        decorated_func(*args)
+    return wrapper_expression_decorator
+
+def p_expression_program(p):
+    """program : statement"""
+    p[0] = AST.ProgramNode(p[1])
+
+def p_expression_recursive(p):
+    ''' program : statement ';' program '''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
+
+def p_expression_statement(p):
+    """statement : assignation
+    | structure"""
+    try:
+        p[0] = p[2]
+    except:
+        p[0] = p[1]
+
+def p_expression_print(p):
+    """statement : PRINT expression"""
+    p[0] = AST.PrintNode(p[2])
+
+def p_expression_assignation(p):
+    """assignation : IDENTIFIER '=' expression"""
+    p[0] = AST.AssignNode([AST.TokenNode(p[1]), p[3]])
+
+def p_expression_structure(p):
+    """structure : WHILE expression '{' program '}'"""
+    p[0] = AST.WhileNode([p[2], p[4]])
+
+def p_expression_identifier(p):
+    """expression : IDENTIFIER"""
+    p[0] = AST.TokenNode(p[1])
+
+def p_expression_num(p):
+    """expression : NUMBER"""
+    p[0] = AST.TokenNode(p[1])
+
+def p_expression_addop(p):
+    """expression : expression ADD_OP expression
+    | expression MUL_OP expression"""
+    p[0] = AST.OpNode(p[2], [p[1], p[3]])
+
+def p_expression_parenthesis(p):
+    """expression : '(' expression ')' """
+    p[0] = p[2]
+
+def p_expression_uminus(p):
+    'expression : ADD_OP expression %prec UMINUS'
+    p[0] = AST.OpNode(p[1], [p[2]])
+
+def p_error(p):
+    print("Syntax error in line %d" %p.lineno)
+    yacc.errok()
+
+yacc.yacc(outputdir='generated')
+
+if __name__ == '__main__':
+    import sys
+
+    path = ""
+    if len(sys.argv)>1:
+        prog = sys.argv[1]
+    else:
+        path = "test1.txt"
+
+    if path is not None:
+        prog = open(path).read()
+        result = yacc.parse(prog) #debug=1
+
+        #In console
+        print(result)
+
+        #In PDF
+        import os
+        graph = result.makegraphicaltree()
+        name = os.path.splitext(path)[0]+"-ast.pdf"
+        graph.write_pdf(name)
+        print("wrote ast to", name)
