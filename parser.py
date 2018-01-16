@@ -72,8 +72,30 @@ def p_error(p):
 
 ###     Expressions Animaker     ###
 
+def p_expression_pi(p):
+    """expression : PI"""
+    p[0] = AST.TokenNode(3.14)  #A voir !NUMBER? pas geré sinon comme un number
+
 def p_expression_ball(p):
-    pass
+    """expression : BALL NUMBER ',' NUMBER ',' NUMBER"""
+    print("Ball" +" "+ str(p[2]) +", "+ str(p[4]) +", "+ str(p[6]))
+    p[0] = AST.BallNode(p[2], p[4], p[6])
+
+def p_expression_rectangle(p):
+    """expression : RECTANGLE NUMBER ',' NUMBER ',' NUMBER ',' NUMBER"""
+    print(p[1])
+
+def p_expression_move(p):
+    """expression : MOVE IDENTIFIER NUMBER ',' NUMBER"""
+    print(p[1])
+
+def p_expression_rotate(p):
+    """expression : ROTATE IDENTIFIER NUMBER"""
+    print(p[1])
+
+def p_expression_show(p):
+    """expression : SHOW IDENTIFIER"""
+    print(p[1])
 
 ###     Yacc and decorator      ###
 

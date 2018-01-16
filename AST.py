@@ -20,6 +20,7 @@ class Node:
     count = 0
     type = 'Node (unspecified)'
     shape = 'ellipse'
+
     def __init__(self,children=None):
         self.ID = str(Node.count)
         Node.count+=1
@@ -109,7 +110,7 @@ class TokenNode(Node):
     
 class OpNode(Node):
     def __init__(self, op, children):
-        Node.__init__(self,children)
+        Node.__init__(self, children)
         self.op = op
         try:
             self.nbargs = len(children)
@@ -132,6 +133,15 @@ class EntryNode(Node):
     type = 'entry'
     def __init__(self):
         Node.__init__(self, None)
+
+###     Animaker        ###
+class BallNode(Node):
+    type = 'ball'
+    def __init__(self, posX, posY, radius):
+        Node.__init__(self)
+        self.posX = posX
+        self.posY = posY
+        self.radius = radius
 
 def addToClass(cls):
     ''' Décorateur permettant d'ajouter la fonction décorée en tant que méthode

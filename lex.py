@@ -16,7 +16,7 @@ tokens = (
     'NUMBER',
     'ADD_OP',
     'MUL_OP'
-) + tuple(map(lambda s:s.upper(), reserved_words))
+) + tuple(map(lambda s: s.upper(), reserved_words))
 
 literals = '();={},'
 
