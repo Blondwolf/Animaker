@@ -1,0 +1,19 @@
+ball0 = Ball 0, 0, 50;
+rect0 = Rect 100, 0, 100, 100;
+
+t = 0;
+
+show ball0;
+show rect0;
+
+while(t < 100){
+    print t;
+
+    move rect0 10, 10;
+    rotate ball0 PI/4;
+
+    show ball0;
+    show rect0;
+
+    t = t + 1;
+};

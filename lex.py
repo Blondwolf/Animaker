@@ -2,7 +2,13 @@ import ply.lex as lex
 
 reserved_words = (
     'while',
-    'print'
+    'print',
+    'move',
+    'rotate',
+    'show',
+    'Ball',
+    'Rectangle',
+    'PI'
 )
 
 tokens = (
@@ -45,7 +51,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = open(sys.argv[1]).read()
     else:
-        prog = open("test2.txt").read()
+        prog = open("test.txt").read()
 
     lex.input(prog)
     while 1:
