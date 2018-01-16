@@ -45,7 +45,7 @@ def execute(self):
         self.children[1].execute()
 
 if __name__ == "__main__":
-    from parser5 import parse
+    from parser import parse
     import sys
 
     path = ""

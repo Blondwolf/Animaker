@@ -86,7 +86,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = sys.argv[1]
     else:
-        path = "test1.txt"
+        path = "test.txt"
 
     if path is not None:
         prog = open(path).read()

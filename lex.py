@@ -18,7 +18,7 @@ tokens = (
     'MUL_OP'
 ) + tuple(map(lambda s:s.upper(), reserved_words))
 
-literals = '();={}'
+literals = '();={},'
 
 t_ADD_OP = r'[\+|-]'
 t_MUL_OP = r'[/|\*]'
