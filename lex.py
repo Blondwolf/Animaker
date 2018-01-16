@@ -24,9 +24,11 @@ t_ADD_OP = r'[\+|-]'
 t_MUL_OP = r'[/|\*]'
 t_ignore = ' \t'
 
+###       Tokens RegExp        ###
+
 def t_IDENTIFIER(t):
     r'[a-zA-Z_]\w*'
-    if t.value in reserved_words:#La valeur des mots reservé devient leur types
+    if t.value in reserved_words:   #La valeur des mots reservé devient leur types
         t.type = t.value.upper()
     return t
 
@@ -44,6 +46,8 @@ def t_error(t):
     t.lexer.skip(1)
 
 lex.lex()
+
+###       Main        ###
 
 if __name__ == '__main__':
     import sys

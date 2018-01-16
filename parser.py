@@ -15,14 +15,7 @@ precedence = (
     ('right', 'UMINUS'),
 )
 
-def parse(program):
-    return yacc.parse(program)
-
-def exp_decorator(decorated_func):
-    def wrapper_expression_decorator(*args):
-        print("deco : ", args)
-        decorated_func(*args)
-    return wrapper_expression_decorator
+###     Expressions basic     ###
 
 def p_expression_program(p):
     """program : statement"""
@@ -77,7 +70,25 @@ def p_error(p):
     print("Syntax error in line %d" %p.lineno)
     yacc.errok()
 
+###     Expressions Animaker     ###
+
+def p_expression_ball(p):
+    pass
+
+###     Yacc and decorator      ###
+
 yacc.yacc(outputdir='generated')
+
+def exp_decorator(decorated_func):
+    def wrapper_expression_decorator(*args):
+        print("deco : ", args)
+        decorated_func(*args)
+    return wrapper_expression_decorator
+
+def parse(program):
+    return yacc.parse(program)
+
+###       Main        ###
 
 if __name__ == '__main__':
     import sys
