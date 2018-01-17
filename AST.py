@@ -143,6 +143,24 @@ class BallNode(Node):
         self.posY = posY
         self.radius = radius
 
+class RectangleNode(Node):
+    type = 'rectangle'
+    def __init__(self, posX, posY, width, height):
+        Node.__init__(self)
+        self.posX = posX
+        self.posY = posY
+        self.width = width
+        self.height = height
+
+class ShowNode(Node):
+    type = 'show'
+
+class MoveNode(Node):
+    type = 'move'
+
+class RotateNode(Node):
+    type = 'rotate'
+
 def addToClass(cls):
     ''' Décorateur permettant d'ajouter la fonction décorée en tant que méthode
     à une classe '''

@@ -1,0 +1,6 @@
+t = 100;
+
+while(t){
+    print t;
+    t = t - 1;
+};

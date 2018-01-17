@@ -18,7 +18,7 @@ precedence = (
 ###     Expressions basic     ###
 
 def p_expression_program(p):
-    """program : statement"""
+    """program : statement ';' """
     p[0] = AST.ProgramNode(p[1])
 
 def p_expression_recursive(p):
@@ -84,18 +84,22 @@ def p_expression_ball(p):
 def p_expression_rectangle(p):
     """expression : RECTANGLE NUMBER ',' NUMBER ',' NUMBER ',' NUMBER"""
     print(p[1])
+    p[0] = AST.RectangleNode(p[2], p[4], p[6], p[8])
 
 def p_expression_move(p):
-    """expression : MOVE IDENTIFIER NUMBER ',' NUMBER"""
+    """statement : MOVE IDENTIFIER NUMBER ',' NUMBER"""
     print(p[1])
+    p[0] = AST.MoveNode()
 
 def p_expression_rotate(p):
-    """expression : ROTATE IDENTIFIER NUMBER"""
+    """statement : ROTATE IDENTIFIER NUMBER"""
     print(p[1])
+    p[0] = AST.RotateNode
 
 def p_expression_show(p):
-    """expression : SHOW IDENTIFIER"""
+    """statement : SHOW expression"""
     print(p[1])
+    p[0] = AST.ShowNode(p[2])
 
 ###     Yacc and decorator      ###
 
