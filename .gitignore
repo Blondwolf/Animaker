@@ -1,3 +1,9 @@
+#Perso
+
+.idea/*
+__pycache__/*
+generated/*
+
 # Created by https://www.gitignore.io/api/pycharm
 
 ### PyCharm ###
