@@ -8,6 +8,7 @@ reserved_words = (
     'show',
     'Ball',
     'Rectangle',
+	'Triangle',
     'PI'
 )
 

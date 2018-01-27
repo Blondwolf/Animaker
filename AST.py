@@ -152,6 +152,24 @@ class RectangleNode(Node):
         self.width = width
         self.height = height
 
+class TriangleNode(Node):
+    type = 'triangle'
+    def __init__(self, posX1, posY1, posX2, posY2, posX3, posY3):
+        Node.__init__(self)
+        self.posX1 = posX1
+        self.posX1 = posX1
+        self.posX2 = posX2
+        self.posY2 = posY2
+        self.posX3 = posX3
+        self.posY3 = posY3
+
+class CoordNode(Node):
+    type = 'coord'
+    def __init__(self, coordX, coordY):
+        Node.__init__(self)
+        self.coordX = coordX
+        self.coordY = coordY
+
 class ShowNode(Node):
     type = 'show'
 
