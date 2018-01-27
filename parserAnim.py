@@ -80,15 +80,15 @@ def p_expression_pi(p):
 	
 def p_expression_ball(p):
     """expression : BALL NUMBER ',' NUMBER ',' NUMBER"""
-    p[0] = AST.BallNode(p[2], p[4], p[6])
+    p[0] = AST.TokenNode([p[1], p[2], p[4], p[6]])
 
 def p_expression_rectangle(p):
     """expression : RECTANGLE NUMBER ',' NUMBER ',' NUMBER ',' NUMBER"""
-    p[0] = AST.RectangleNode(p[2], p[4], p[6], p[8])
+    p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8]])
 	
 def p_expressiom_triangle(p):
     """expression : TRIANGLE NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER"""
-    p[0] = AST.TriangleNode(p[2], p[4], p[6], p[8], p[10], p[12])
+    p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12]])
 
 def p_expression_move(p):
     """statement : MOVE IDENTIFIER NUMBER NUMBER"""
