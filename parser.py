@@ -129,7 +129,7 @@ if __name__ == '__main__':
 
     if path is not None:
         prog = open(path).read()
-        result = parse(prog, 1) #debug=1
+        result = parse(prog) #debug=1
         #In console
         print(result)
 
