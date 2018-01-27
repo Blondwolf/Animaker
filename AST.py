@@ -135,40 +135,6 @@ class EntryNode(Node):
         Node.__init__(self, None)
 
 ###     Animaker        ###
-class BallNode(Node):
-    type = 'ball'
-    def __init__(self, posX, posY, radius):
-        Node.__init__(self)
-        self.posX = posX
-        self.posY = posY
-        self.radius = radius
-
-class RectangleNode(Node):
-    type = 'rectangle'
-    def __init__(self, posX, posY, width, height):
-        Node.__init__(self)
-        self.posX = posX
-        self.posY = posY
-        self.width = width
-        self.height = height
-
-class TriangleNode(Node):
-    type = 'triangle'
-    def __init__(self, posX1, posY1, posX2, posY2, posX3, posY3):
-        Node.__init__(self)
-        self.posX1 = posX1
-        self.posX1 = posX1
-        self.posX2 = posX2
-        self.posY2 = posY2
-        self.posX3 = posX3
-        self.posY3 = posY3
-
-class CoordNode(Node):
-    type = 'coord'
-    def __init__(self, coordX, coordY):
-        Node.__init__(self)
-        self.coordX = coordX
-        self.coordY = coordY
 
 class ShowNode(Node):
     type = 'show'

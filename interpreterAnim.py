@@ -11,10 +11,31 @@ operations = {
 
 vars ={}
 
+def write_header():
+    file.write("import pygame\n")
+    file.write("from pygame.locals import *\n")
+    file.write("from pygame.locals import QUIT, MOUSEBUTTONDOWN, KEYDOWN, K_RETURN\n")
+    file.write("if __name__ == '__main__':\n")
+    file.write("    pygame.init()\n")
+    file.write("    screen = pygame.display.set_mode((640, 480))\n")
+	
+def write_footer():
+    file.write("    pygame.display.flip()\n")
+    file.write("    running = 1\n")
+    file.write("    while running:\n")
+    file.write("        for event in pygame.event.get():\n")
+    file.write("            if event.type == QUIT:\n")
+    file.write("                running = 0\n")
+
+
 @addToClass(AST.ProgramNode)
 def execute(self):
+    global file
+    file = open("test.py", 'w')
+    write_header()
     for c in self.children:
         c.execute()
+    write_footer()
     
 @addToClass(AST.TokenNode)
 def execute(self):
@@ -34,6 +55,7 @@ def execute(self):
 
 @addToClass(AST.AssignNode)
 def execute(self):
+    print(self.children[0].tok)
     vars[self.children[0].tok] = self.children[1].execute()
 
 @addToClass(AST.PrintNode)
@@ -48,7 +70,16 @@ def execute(self):
 		
 @addToClass(AST.ShowNode)
 def execute(self):
-    print(self.children[0].type)
+    #file.write(self+"\n")
+    #print(self.children)
+    object_geom = vars.get(self.children[0].tok)
+    type = object_geom[0].lower()
+    if type == "ball":
+        file.write("    pygame.draw.circle(screen, [0, 0, 255], ({}, {}), {})\n".format(int(object_geom[1]), int(object_geom[2]), int(object_geom[3])))
+    elif type == "rectangle":
+        file.write("    pygame.draw.rect(screen, [0, 0, 255], ({}, {}, {}, {}))\n".format(int(object_geom[1]), int(object_geom[2]), int(object_geom[3]), int(object_geom[4])))
+    elif type == "triangle":
+        file.write("    pygame.draw.polygon(screen, [0, 0, 255], [({}, {}), ({}, {}), ({}, {})])\n".format(int(object_geom[1]), int(object_geom[2]), int(object_geom[3]), int(object_geom[4]), int(object_geom[5]), int(object_geom[6])))
 		
 @addToClass(AST.RotateNode)
 def execute(self):
@@ -68,7 +99,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         prog = sys.argv[1]
     else:
-        path = "exemples/test.txt"
+        path = "exemples/test_animaker.txt"
 
     prog = open(path).read()
     ast = parserAnim.parse(prog)
