@@ -2,11 +2,4 @@ ball0 = Ball 0, 0, 50;
 rect0 = Rectangle 100, 0, 100, 100;
 triangle = Triangle 100, 105, 203, 405, 506, 560;
 
-show ball0;
-show rect0;
-
-move rect0 10, 10;
-rotate ball0 PI/4;
-
-show ball0;
-show rect0;
+print triangle;

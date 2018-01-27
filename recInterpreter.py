@@ -1,6 +1,7 @@
 import AST
 from AST import addToClass
 from functools import reduce
+
 operations = {
     '+' : lambda x,y: x+y,
     '-' : lambda x,y: x-y,
@@ -37,6 +38,7 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
+    print(self.children[0].type)
     print (self.children[0].execute())
     
 @addToClass(AST.WhileNode)
@@ -46,8 +48,7 @@ def execute(self):
 		
 @addToClass(AST.ShowNode)
 def execute(self):
-    while self.children[0].execute():
-        self.children[1].execute()
+    print(self.children[0].type)
 		
 @addToClass(AST.RotateNode)
 def execute(self):
@@ -63,11 +64,11 @@ if __name__ == "__main__":
     from parser import parse
     import sys
 
-    path = ""
+    path = None
     if len(sys.argv) > 1:
         prog = sys.argv[1]
     else:
-        path = "test1.txt"
+        path = "test.txt"
 
     prog = open(path).read()
     ast = parse(prog)

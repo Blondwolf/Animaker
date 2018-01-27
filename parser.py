@@ -9,6 +9,8 @@ operations = {
     '*' : lambda x,y: x*y,
 }
 
+vars = {}
+
 precedence = (
     ('left', 'ADD_OP'),
     ('left', 'MUL_OP'),
@@ -103,16 +105,16 @@ def p_expression_show(p):
 
 ###     Yacc and decorator      ###
 
-yacc.yacc(outputdir='generated')
-
 def exp_decorator(decorated_func):
     def wrapper_expression_decorator(*args):
         print("deco : ", args)
         decorated_func(*args)
     return wrapper_expression_decorator
 
-def parse(program):
-    return yacc.parse(program)
+def parse(program, debug=0):
+	return yacc.parse(program, debug)
+
+yacc.yacc(outputdir='generated')
 
 ###       Main        ###
 
@@ -127,8 +129,7 @@ if __name__ == '__main__':
 
     if path is not None:
         prog = open(path).read()
-        result = yacc.parse(prog) #debug=1
-
+        result = parse(prog, 1) #debug=1
         #In console
         print(result)
 
