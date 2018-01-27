@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from lex import tokens
+from lexAnim import tokens
 import AST
 
 operations = {
@@ -84,7 +84,6 @@ def p_expression_ball(p):
 
 def p_expression_rectangle(p):
     """expression : RECTANGLE NUMBER ',' NUMBER ',' NUMBER ',' NUMBER"""
-    print(p[1])
     p[0] = AST.RectangleNode(p[2], p[4], p[6], p[8])
 	
 def p_expressiom_triangle(p):
@@ -92,12 +91,12 @@ def p_expressiom_triangle(p):
     p[0] = AST.TriangleNode(p[2], p[4], p[6], p[8], p[10], p[12])
 
 def p_expression_move(p):
-    """statement : MOVE IDENTIFIER NUMBER ',' NUMBER"""
-    p[0] = AST.MoveNode()
+    """statement : MOVE IDENTIFIER NUMBER NUMBER"""
+    p[0] = AST.MoveNode([AST.TokenNode(p[2]), AST.TokenNode(p[3]), AST.TokenNode(p[4])])
 
 def p_expression_rotate(p):
     """statement : ROTATE IDENTIFIER NUMBER"""
-    p[0] = AST.RotateNode
+    p[0] = AST.RotateNode([AST.TokenNode(p[2]), AST.TokenNode(p[3])])
 
 def p_expression_show(p):
     """statement : SHOW expression"""
@@ -125,7 +124,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = sys.argv[1]
     else:
-        path = "test.txt"
+        path = "exemples/test_animaker.txt"
 
     if path is not None:
         prog = open(path).read()

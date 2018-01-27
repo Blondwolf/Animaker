@@ -61,15 +61,15 @@ def execute(self):
         self.children[1].execute()
 
 if __name__ == "__main__":
-    from parser import parse
+    import parserAnim
     import sys
 
     path = None
     if len(sys.argv) > 1:
         prog = sys.argv[1]
     else:
-        path = "test.txt"
+        path = "exemples/test.txt"
 
     prog = open(path).read()
-    ast = parse(prog)
+    ast = parserAnim.parse(prog)
     ast.execute()

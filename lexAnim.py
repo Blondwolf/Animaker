@@ -56,7 +56,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = open(sys.argv[1]).read()
     else:
-        prog = open("test.txt").read()
+        prog = open("exemples/test.txt").read()
 
     lex.input(prog)
     while 1:
