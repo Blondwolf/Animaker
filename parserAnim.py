@@ -124,7 +124,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = sys.argv[1]
     else:
-        path = "exemples/test_animaker.txt"
+        path = "exemples/test_animaker2.txt"
 
     if path is not None:
         prog = open(path).read()
