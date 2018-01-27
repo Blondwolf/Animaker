@@ -55,7 +55,6 @@ def execute(self):
 
 @addToClass(AST.AssignNode)
 def execute(self):
-    print(self.children[0].tok)
     vars[self.children[0].tok] = self.children[1].execute()
 
 @addToClass(AST.PrintNode)
@@ -70,21 +69,27 @@ def execute(self):
 		
 @addToClass(AST.ShowNode)
 def execute(self):
-    #file.write(self+"\n")
-    #print(self.children)
     object_geom = vars.get(self.children[0].tok)
     type = object_geom[0].lower()
+    color = [255, 255, 255]
+    print(object_geom)
     if type == "ball":
-        file.write("    pygame.draw.circle(screen, [0, 0, 255], ({}, {}), {})\n".format(int(object_geom[1]),
+        if len(object_geom) == 5:
+            color = object_geom[4]
+        file.write("    pygame.draw.circle(screen, {}, ({}, {}), {})\n".format(color, int(object_geom[1]),
                                                                                         int(object_geom[2]),
                                                                                         int(object_geom[3])))
     elif type == "rectangle":
-        file.write("    pygame.draw.rect(screen, [0, 0, 255], ({}, {}, {}, {}))\n".format(int(object_geom[1]),
+        if len(object_geom) == 6:
+            color = object_geom[5]
+        file.write("    pygame.draw.rect(screen, {}, ({}, {}, {}, {}))\n".format(color, int(object_geom[1]),
                                                                                           int(object_geom[2]),
                                                                                           int(object_geom[3]),
                                                                                           int(object_geom[4])))
     elif type == "triangle":
-        file.write("    pygame.draw.polygon(screen, [0, 0, 255], [({}, {}), ({}, {}), ({}, {})])\n".format(int(object_geom[1]),
+        if len(object_geom) == 8:
+            color = object_geom[7]
+        file.write("    pygame.draw.polygon(screen, {}, [({}, {}), ({}, {}), ({}, {})])\n".format(color, int(object_geom[1]),
                                                                                                            int(object_geom[2]),
                                                                                                            int(object_geom[3]),
                                                                                                            int(object_geom[4]),

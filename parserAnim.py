@@ -20,11 +20,11 @@ precedence = (
 ###     Expressions basic     ###
 
 def p_expression_program(p):
-    """program : statement ';' """
+    """program : statement ';'"""
     p[0] = AST.ProgramNode(p[1])
 
 def p_expression_recursive(p):
-    ''' program : statement ';' program '''
+    """program : statement ';' program"""
     p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 def p_expression_statement(p):
@@ -52,7 +52,8 @@ def p_expression_identifier(p):
     p[0] = AST.TokenNode(p[1])
 
 def p_expression_num(p):
-    """expression : NUMBER"""
+    """expression : FLOAT
+    | INTEGER"""
     p[0] = AST.TokenNode(p[1])
 
 def p_expression_addop(p):
@@ -76,26 +77,38 @@ def p_error(p):
 	
 def p_expression_pi(p):
     """expression : PI"""
-    p[0] = AST.TokenNode(3.14)  #A voir !NUMBER? pas geré sinon comme un number
+    p[0] = AST.TokenNode(3.1415926535)  #A voir !NUMBER? pas geré sinon comme un number
 	
 def p_expression_ball(p):
-    """expression : BALL NUMBER ',' NUMBER ',' NUMBER"""
-    p[0] = AST.TokenNode([p[1], p[2], p[4], p[6]])
+    """expression : BALL INTEGER ',' INTEGER ',' INTEGER
+    | BALL INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
+    if len(p) == 7:
+        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6]])
+    elif len(p) == 9:
+        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8]])
 
 def p_expression_rectangle(p):
-    """expression : RECTANGLE NUMBER ',' NUMBER ',' NUMBER ',' NUMBER"""
-    p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8]])
+    """expression : RECTANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER
+    | RECTANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
+    if len(p) == 9:
+        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8]])
+    elif len(p) == 11:
+        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10]])
 	
 def p_expressiom_triangle(p):
-    """expression : TRIANGLE NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER ',' NUMBER"""
-    p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12]])
+    """expression : TRIANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER
+    | TRIANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
+    if len(p) == 13:
+        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12]])
+    elif len(p) == 15:
+        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12], p[14]])
 
 def p_expression_move(p):
-    """statement : MOVE IDENTIFIER NUMBER NUMBER"""
+    """statement : MOVE IDENTIFIER INTEGER INTEGER"""
     p[0] = AST.MoveNode([AST.TokenNode(p[2]), AST.TokenNode(p[3]), AST.TokenNode(p[4])])
 
 def p_expression_rotate(p):
-    """statement : ROTATE IDENTIFIER NUMBER"""
+    """statement : ROTATE IDENTIFIER FLOAT"""
     p[0] = AST.RotateNode([AST.TokenNode(p[2]), AST.TokenNode(p[3])])
 
 def p_expression_show(p):
