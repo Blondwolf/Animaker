@@ -43,6 +43,21 @@ def execute(self):
 def execute(self):
     while self.children[0].execute():
         self.children[1].execute()
+		
+@addToClass(AST.ShowNode)
+def execute(self):
+    while self.children[0].execute():
+        self.children[1].execute()
+		
+@addToClass(AST.RotateNode)
+def execute(self):
+    while self.children[0].execute():
+        self.children[1].execute()
+		
+@addToClass(AST.MoveNode)
+def execute(self):
+    while self.children[0].execute():
+        self.children[1].execute()
 
 if __name__ == "__main__":
     from parser import parse

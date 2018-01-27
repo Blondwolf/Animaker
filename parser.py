@@ -91,17 +91,14 @@ def p_expressiom_triangle(p):
 
 def p_expression_move(p):
     """statement : MOVE IDENTIFIER NUMBER ',' NUMBER"""
-    print(p[1])
     p[0] = AST.MoveNode()
 
 def p_expression_rotate(p):
     """statement : ROTATE IDENTIFIER NUMBER"""
-    print(p[1])
     p[0] = AST.RotateNode
 
 def p_expression_show(p):
     """statement : SHOW expression"""
-    print(p[1])
     p[0] = AST.ShowNode(p[2])
 
 ###     Yacc and decorator      ###
