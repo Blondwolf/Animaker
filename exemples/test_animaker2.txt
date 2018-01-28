@@ -1,14 +1,20 @@
-ball0 = Ball 50, 50, 20;
-rect0 = Rectangle 150, 200, 100, 40;
-triangle0 = Triangle 120, 120, 80, 80, 160, 80;
+ball0 = Ball 50, 50, 20, [155, 0, 142];
+rect0 = Rectangle 150, 200, 100, 40, [124, 124, 142];
+triangle0 = Triangle 120, 120, 80, 80, 160, 80, [0, 255, 0];
 
 show ball0;
 show rect0;
 show triangle0;
 
+<<<<<<< HEAD
 move ball0 50.0 0.0;
 move rect0 0.0 50.0;
 move triangle0 50.0 0.0;
+=======
+move ball0 50 50;
+move rect0 50 50;
+move triangle0 50 50;
+>>>>>>> 361759e81b514ff0abce9b793902c32c88d5d7ce
 
 show ball0;
 show rect0;
