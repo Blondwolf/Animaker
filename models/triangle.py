@@ -22,7 +22,25 @@ class Triangle(Element):
 		
     def add_move(self, x, y):
         self.moves.append(Move(x, y))
-	
+
+    def rotate_point(self, x, y, centerX, centerY, alpha):	
+        s = sin(alpha)
+        c = cos(alpha)
+        x -= centerX
+        y -= centerY
+        new_x = x * c - y * s
+        new_y = x * s + y * c
+        x = new_x + centerX
+        y = new_y + centerY
+        return x, y
+		
+    def rotate(self, alpha):
+        centerX = self.posX + (self.width / 2)
+        centerY = self.posY + (self.height / 2)
+        self.posX, self.posY = self.rotate_point(self.posX, self.posY, centerX, centerY, alpha)
+        self.posX2, self.posY2 = self.rotate_point(self.posX2, self.posY2, centerX, centerY, alpha)
+        self.posX3, self.posY3 = self.rotate_point(self.posX3, self.posY3, centerX, centerY, alpha)
+
     def translate(self, x, y):
         self.posX += x
         self.posY += y
