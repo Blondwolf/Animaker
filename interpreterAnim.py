@@ -166,7 +166,7 @@ def execute(self, indent_level=0):
     str_indent = get_indent(indent_level)
     element = objects.get(self.children[0].tok)
     alpha = self.children[1].execute()
-    file.write("{}{}.rotate({}, {})\n".format(str_indent, self.children[0].tok, alpha))
+    file.write("{}{}.rotate({})\n".format(str_indent, self.children[0].tok, alpha))
     file.write("{}{}.draw(pygame, screen)\n".format(str_indent, self.children[0].tok))
 
 @addToClass(AST.MoveNode)
