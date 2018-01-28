@@ -12,6 +12,7 @@ if __name__ == '__main__':
     objects=[]
     ball0 = Ball(50, 50, 20, [155, 0, 142])
     ball0.add_move(50, 0)
+    ball0.add_move(0, 40)
     objects.append(ball0)
     rect0 = Rectangle(150, 200, 100, 40, [124, 124, 142])
     rect0.add_move(80, 50)

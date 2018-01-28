@@ -6,6 +6,7 @@ triangle0 = Triangle 120, 120, 80, 80, 160, 80, [0, 255, 0];
 move ball0 50 0;
 move rect0 80 50;
 move triangle0 50 5;
+move ball0 0 40;
 
 
 
