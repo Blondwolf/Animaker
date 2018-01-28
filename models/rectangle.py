@@ -32,6 +32,9 @@ class Rectangle(Element):
         self.posX += x
         self.posY += y
 		
+    def add_rotate(self, alpha):
+        pass
+
     def move(self):
         if len(self.moves) > 0:
             move = self.moves[0]

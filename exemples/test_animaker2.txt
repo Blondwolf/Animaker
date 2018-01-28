@@ -8,5 +8,5 @@ move rect0 80 50;
 move triangle0 50 5;
 move ball0 0 40;
 
-test=PI;
+
 

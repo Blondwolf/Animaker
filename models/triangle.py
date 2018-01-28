@@ -22,24 +22,6 @@ class Triangle(Element):
 		
     def add_move(self, x, y):
         self.moves.append(Move(x, y))
-		
-    def rotate_point(self, centerX, centerY, angle, posX, posY):
-        s = math.sin(angle)
-        c = math.cos(angle)
-
-        #translate point back to origin:
-        posX -= centerX
-        posY -= centerY
-
-        #rotate point
-        xnew = posX * c - posY * s
-        ynew = posX * s + posY * c
-
-        #translate point back:
-        posX = xnew + centerX
-        posY = ynew + centerY
-
-        return posX, posY	
 	
     def translate(self, x, y):
         self.posX += x

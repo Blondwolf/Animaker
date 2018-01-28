@@ -16,7 +16,7 @@ if __name__ == '__main__':
     tick=80
     ball0 = Ball(750, 550, 20, [0, 255, 255])
     objects.append(ball0)
-    rect0 = Rectangle(10, 300, 20, 100, [255, 255, 255])
+    rect0 = Rectangle(10, 400, 100, 25, [255, 255, 255])
     objects.append(rect0)
     t = 10
     while(t):
@@ -26,8 +26,6 @@ if __name__ == '__main__':
         ball0.translate(-50, -50)
         ball0.draw(pygame, screen)
         rect0.translate(50, -60)
-        rect0.draw(pygame, screen)
-        rect0.rotate(3.0)
         rect0.draw(pygame, screen)
         while(p):
             screen.fill(0)
@@ -61,7 +59,6 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit(0)
-    ball0.add_move(50, 50)
     screen = pygame.display.set_mode((800, 600))
     pygame.display.flip()
     running = 1

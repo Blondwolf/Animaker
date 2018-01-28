@@ -19,14 +19,14 @@ class Ball(Element):
 
     def add_move(self, x, y):
         self.moves.append(Move(x, y))
+	
+    def translate(self, x, y):
+        self.posX += x
+        self.posY += y
 		
     # useless rotate a circle 
     def rotate(self, alpha):
         pass
-
-    def translate(self, x, y):
-        self.posX += x
-        self.posY += y
 		
     def move(self):
         if len(self.moves) > 0:

@@ -70,7 +70,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = open(sys.argv[1]).read()
     else:
-        prog = open("exemples/test_final.txt").read()
+        prog = open("exemples/test_animaker2.txt").read()
 
     lex.input(prog)
     while 1:

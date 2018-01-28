@@ -83,10 +83,10 @@ class Node:
                 edge = pydot.Edge(self.ID,c.ID)
                 edge.set_color(color)
                 edge.set_arrowsize('.5')
-                # Les arrêtes correspondant aux coutures ne sont pas prises en compte
-                # pour le layout du graphe. Ceci permet de garder l'arbre dans sa représentation
+                # Les arrï¿½tes correspondant aux coutures ne sont pas prises en compte
+                # pour le layout du graphe. Ceci permet de garder l'arbre dans sa reprï¿½sentation
                 # "standard", mais peut provoquer des surprises pour le trajet parfois un peu
-                # tarabiscoté des coutures...
+                # tarabiscotï¿½ des coutures...
                 # En commantant cette ligne, le layout sera bien meilleur, mais l'arbre nettement
                 # moins reconnaissable.
                 edge.set_constraint('false')
@@ -161,6 +161,15 @@ class TickNode(Node):
         
     def __repr__(self):
         return repr(self.value)
+		
+class TypeNode(Node):
+    type = 'type'
+    def __init__(self, tok):
+        Node.__init__(self)
+        self.tok = tok
+        
+    def __repr__(self):
+        return repr(self.tok)
 
 class ElementNode(Node):
     type = 'element'
@@ -170,22 +179,22 @@ class ElementNode(Node):
         
     def __repr__(self):
         return repr(self.tok)
-		
-class ScreenNode(Node):
-    type = 'screen'
-		
-class TranslateNode(Node):
-    type = 'translate'
 
 class MoveNode(Node):
     type = 'move'
 
 class RotateNode(Node):
     type = 'rotate'
+	
+class TranslateNode(Node):
+    type = 'translate'
+	
+class ScreenNode(Node):
+    type = 'screen'
 
 def addToClass(cls):
-    ''' Décorateur permettant d'ajouter la fonction décorée en tant que méthode
-    à une classe '''
+    ''' Dï¿½corateur permettant d'ajouter la fonction dï¿½corï¿½e en tant que mï¿½thode
+    ï¿½ une classe '''
     def decorator(func):
         setattr(cls, func.__name__, func)
         return func
