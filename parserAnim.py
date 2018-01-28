@@ -52,8 +52,7 @@ def p_expression_identifier(p):
     p[0] = AST.TokenNode(p[1])
 
 def p_expression_num(p):
-    """expression : FLOAT
-    | INTEGER"""
+    """expression : type"""
     p[0] = AST.TokenNode(p[1])
 
 def p_expression_addop(p):
@@ -74,46 +73,63 @@ def p_error(p):
     yacc.errok()
 
 ###     Expressions Animaker     ###
+
+def p_type_number(p):
+    """type : INTEGER
+    | FLOAT"""
+    p[0] = AST.TypeNode(p[1])
 	
+def p_int_number(p):
+    """int : INTEGER"""
+    p[0] = AST.IntNode(p[1])
+	
+def p_float_number(p):
+    """float : INTEGER"""
+    p[0] = AST.FloatNode(p[1])
+
 def p_expression_pi(p):
     """expression : PI"""
-    p[0] = AST.TokenNode(3.1415926535)  #A voir !NUMBER? pas geré sinon comme un number
-	
+    p[0] = AST.FloatNode(3.1415926535)  #A voir !NUMBER? pas geré sinon comme un number
+
 def p_expression_ball(p):
     """expression : BALL INTEGER ',' INTEGER ',' INTEGER
     | BALL INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
     if len(p) == 7:
-        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6]])
+        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6]])
     elif len(p) == 9:
-        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8]])
+        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8]])
 
 def p_expression_rectangle(p):
     """expression : RECTANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER
     | RECTANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
     if len(p) == 9:
-        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8]])
+        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8]])
     elif len(p) == 11:
-        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10]])
+        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8], p[10]])
 	
 def p_expressiom_triangle(p):
     """expression : TRIANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER
     | TRIANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
     if len(p) == 13:
-        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12]])
+        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12]])
     elif len(p) == 15:
-        p[0] = AST.TokenNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12], p[14]])
+        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12], p[14]])
 
 def p_expression_move(p):
-    """statement : MOVE IDENTIFIER INTEGER INTEGER"""
-    p[0] = AST.MoveNode([AST.TokenNode(p[2]), AST.TokenNode(p[3]), AST.TokenNode(p[4])])
+    """statement : MOVE IDENTIFIER int int"""
+    p[0] = AST.MoveNode([AST.TokenNode(p[2]), p[3], p[4]])
 
 def p_expression_rotate(p):
-    """statement : ROTATE IDENTIFIER FLOAT"""
-    p[0] = AST.RotateNode([AST.TokenNode(p[2]), AST.TokenNode(p[3])])
+    """statement : ROTATE IDENTIFIER float"""
+    p[0] = AST.RotateNode([AST.TokenNode(p[2]), p[3]])
 
 def p_expression_show(p):
     """statement : SHOW expression"""
     p[0] = AST.ShowNode(p[2])
+	
+def p_expression_tick(p):
+    """statement : TICK int"""
+    p[0] = AST.TickNode(p[2])
 
 ###     Yacc and decorator      ###
 
@@ -137,7 +153,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = sys.argv[1]
     else:
-        path = "exemples/test_final.txt"
+        path = "exemples/test_animaker2.txt"
 
     if path is not None:
         prog = open(path).read()

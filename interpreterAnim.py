@@ -1,6 +1,9 @@
 import AST
 from AST import addToClass
 from functools import reduce
+from models.ball import Ball
+from models.rectangle import Rectangle
+from models.triangle import Triangle
 
 import math
 
@@ -11,15 +14,23 @@ operations = {
     '/' : lambda x,y: x/y,
 }
 
-vars ={}
+tick=100 # default
+vars={}
+objects={}
 
 def write_header():
     file.write("import pygame\n")
     file.write("from pygame.locals import *\n")
     file.write("from pygame.locals import QUIT, MOUSEBUTTONDOWN, KEYDOWN, K_RETURN\n")
+    file.write("from models.ball import Ball\n")
+    file.write("from models.triangle import Triangle\n")
+    file.write("from models.rectangle import Rectangle\n\n")
+
     file.write("if __name__ == '__main__':\n")
     file.write("    pygame.init()\n")
+    file.write("    clock = pygame.time.Clock()\n")
     file.write("    screen = pygame.display.set_mode((640, 480))\n")
+    file.write("    objects=[]\n")
 	
 def write_footer():
     file.write("    pygame.display.flip()\n")
@@ -28,16 +39,29 @@ def write_footer():
     file.write("        for event in pygame.event.get():\n")
     file.write("            if event.type == QUIT:\n")
     file.write("                running = 0\n")
+    file.write("        screen.fill(0)\n")
+    file.write("        for obj in objects:\n")
+    file.write("            obj.move()\n")
 
 
 @addToClass(AST.ProgramNode)
 def execute(self):
     global file
+    global objects
+    global tick
     file = open("test.py", 'w')
     write_header()
     for c in self.children:
         c.execute()
+    for key, values in objects.items():
+        file.write("    {} = {}\n".format(key, values))
+        for move in values.moves:
+            file.write("    {}.add_move({})\n".format(key, str(move)))
+        file.write("    objects.append({})\n".format(key))
     write_footer()
+    file.write("            obj.draw(pygame, screen)\n")
+    file.write("        pygame.display.flip()\n")
+    file.write("        clock.tick({})\n".format(tick))
     
 @addToClass(AST.TokenNode)
 def execute(self):
@@ -47,6 +71,31 @@ def execute(self):
         except KeyError:
             print("*** Error: variable %s undefined!" % self.tok)
     return self.tok
+	
+@addToClass(AST.ElementNode)
+def execute(self):
+    if isinstance(self.tok, str):
+        try:
+            return objects[self.tok]
+        except KeyError:
+            print("*** Error: variable %s undefined!" % self.tok)
+    object_type = self.tok[0].lower()
+    color = [255, 255, 255]
+    length = len(self.tok)
+    element = None
+    if object_type == "ball":
+        if length == 5:
+            color = self.tok[4]
+        element = Ball(self.tok[1], self.tok[2], self.tok[3], color)
+    elif object_type == "rectangle":
+        if length == 6:
+            color = self.tok[5]
+        element = Rectangle(self.tok[1], self.tok[2], self.tok[3], self.tok[4], color)
+    elif object_type == "triangle":
+        if length == 8:
+            color = self.tok[7]
+        element = Triangle(self.tok[1], self.tok[2], self.tok[3], self.tok[4], self.tok[5], self.tok[6], color)
+    return element
 
 @addToClass(AST.OpNode)
 def execute(self):
@@ -57,11 +106,13 @@ def execute(self):
 
 @addToClass(AST.AssignNode)
 def execute(self):
-    vars[self.children[0].tok] = self.children[1].execute()
+    if self.children[1].type == "token":
+        vars[self.children[0].tok] = self.children[1].execute()
+    elif self.children[1].type == "element":
+        objects[self.children[0].tok] = self.children[1].execute()
 
 @addToClass(AST.PrintNode)
 def execute(self):
-    print(self.children[0].type)
     print (self.children[0].execute())
     
 @addToClass(AST.WhileNode)
@@ -71,36 +122,20 @@ def execute(self):
 		
 @addToClass(AST.ShowNode)
 def execute(self):
-    object_geom = vars.get(self.children[0].tok)
-    type = object_geom[0].lower()
-    color = [255, 255, 255]
-    print(object_geom)
-    if type == "ball":
-        if len(object_geom) == 5:
-            color = object_geom[4]
-        file.write("    pygame.draw.circle(screen, {}, ({}, {}), {})\n".format(color, int(object_geom[1]),
-                                                                                        int(object_geom[2]),
-                                                                                        int(object_geom[3])))
-    elif type == "rectangle":
-        if len(object_geom) == 6:
-            color = object_geom[5]
-        file.write("    pygame.draw.rect(screen, {}, ({}, {}, {}, {}))\n".format(color, int(object_geom[1]),
-                                                                                          int(object_geom[2]),
-                                                                                          int(object_geom[3]),
-                                                                                          int(object_geom[4])))
-    elif type == "triangle":
-        if len(object_geom) == 8:
-            color = object_geom[7]
-        file.write("    pygame.draw.polygon(screen, {}, [({}, {}), ({}, {}), ({}, {})])\n".format(color, int(object_geom[1]),
-                                                                                                           int(object_geom[2]),
-                                                                                                           int(object_geom[3]),
-                                                                                                           int(object_geom[4]),
-                                                                                                           int(object_geom[5]),
-                                                                                                           int(object_geom[6])))
+    object_geom = objects.get(self.children[0].tok)
+    file.write(object_geom.draw())
+	
+@addToClass(AST.IntNode)
+def execute(self):
+    return self.value
+	
+@addToClass(AST.FloatNode)
+def execute(self):
+    return self.value
 		
 @addToClass(AST.RotateNode)
 def execute(self):
-    object_geom = vars.get(self.children[0].tok)
+    object_geom = objects.get(self.children[0].tok)
     type = object_geom[0].lower()
     angle = self.children[1].execute()
 
@@ -140,21 +175,15 @@ def rotate_point(centerX, centerY, angle, posX, posY):
 		
 @addToClass(AST.MoveNode)
 def execute(self):
-    object_geom = vars.get(self.children[0].tok)
-    type = object_geom[0].lower()
-    deltaX = self.children[1].execute()
-    deltaY = self.children[2].execute()
-
-    #For all, moves 2 firsts vars
-    object_geom[1] += deltaX
-    object_geom[2] += deltaY
-
-    #For triangle (or polygones) you need to move all coords
-    if type == "triangle":
-        object_geom[3] += deltaX
-        object_geom[4] += deltaY
-        object_geom[5] += deltaX
-        object_geom[6] += deltaY
+    element = objects.get(self.children[0].tok)
+    move_x = self.children[1].execute()
+    move_y = self.children[2].execute()
+    element.add_move(move_x, move_y)
+	
+@addToClass(AST.TickNode)
+def execute(self):
+    global tick
+    tick = self.value.execute()
 
 if __name__ == "__main__":
     import parserAnim
@@ -164,7 +193,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         prog = sys.argv[1]
     else:
-        path = "exemples/test_final.txt"
+        path = "exemples/test_animaker2.txt"
 
     prog = open(path).read()
     ast = parserAnim.parse(prog)

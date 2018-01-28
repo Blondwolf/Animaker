@@ -9,7 +9,8 @@ reserved_words = (
     'Ball',
     'Rectangle',
 	'Triangle',
-    'PI'
+    'PI',
+	'tick'
 )
 
 tokens = (

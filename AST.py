@@ -107,7 +107,7 @@ class TokenNode(Node):
         
     def __repr__(self):
         return repr(self.tok)
-    
+		
 class OpNode(Node):
     def __init__(self, op, children):
         Node.__init__(self, children)
@@ -135,6 +135,51 @@ class EntryNode(Node):
         Node.__init__(self, None)
 
 ###     Animaker        ###
+class IntNode(Node):
+    type = 'integer'
+    def __init__(self, value):
+        Node.__init__(self)
+        self.value = int(value)
+        
+    def __repr__(self):
+        return repr(self.value)
+		
+class FloatNode(Node):
+    type = 'float'
+    def __init__(self, value):
+        Node.__init__(self)
+        self.value = float(value)
+        
+    def __repr__(self):
+        return repr(self.value)
+		
+class TickNode(Node):
+    type = 'tick'
+    def __init__(self, value):
+        Node.__init__(self)
+        self.value = value
+        
+    def __repr__(self):
+        return repr(self.value)
+		
+class TypeNode(Node):
+    type = 'type'
+    def __init__(self, tok):
+        Node.__init__(self)
+        print(tok)
+        self.tok = tok
+        
+    def __repr__(self):
+        return repr(self.tok)
+
+class ElementNode(Node):
+    type = 'element'
+    def __init__(self, tok):
+        Node.__init__(self)
+        self.tok = tok
+        
+    def __repr__(self):
+        return repr(self.tok)
 
 class ShowNode(Node):
     type = 'show'
