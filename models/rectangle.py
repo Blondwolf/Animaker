@@ -1,6 +1,5 @@
 from models.element import Element
 from geometry.move import Move
-from geometry.rotate import Rotate
 from math import cos, sin, radians
 
 class Rectangle(Element):

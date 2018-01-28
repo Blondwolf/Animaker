@@ -1,10 +1,7 @@
 import AST
 from AST import addToClass
 from functools import reduce
-from models.ball import Ball
-from models.rectangle import Rectangle
-from models.triangle import Triangle
-
+import os
 import math
 
 operations = {
@@ -95,42 +92,20 @@ def execute(self, indent_level=0):
         except KeyError:
             print("*** Error: variable %s undefined!" % self.tok)
     return self.tok
-	
-@addToClass(AST.ElementNode)
-def execute(self, indent_level=0):
-    if isinstance(self.tok, str):
-        try:
-            return objects[self.tok]
-        except KeyError:
-            print("*** Error: variable %s undefined!" % self.tok)
-    object_type = self.tok[0].lower()
-    color = [255, 255, 255]
-    length = len(self.tok)
-    element = None
-    if object_type == "ball":
-        if length == 5:
-            color = self.tok[4]
-        element = "Ball({}, {}, {}, {})\n".format(self.tok[1], self.tok[2], self.tok[3], color)
-    elif object_type == "rectangle":
-        if length == 6:
-            color = self.tok[5]
-        element = "Rectangle({}, {}, {}, {}, {})\n".format(self.tok[1], self.tok[2], self.tok[3], self.tok[4], color)
-    elif object_type == "triangle":
-        if length == 8:
-            color = self.tok[7]
-        element = "Triangle({}, {}, {}, {}, {}, {}, {})\n".format(self.tok[1], self.tok[2], self.tok[3], self.tok[4], self.tok[5], self.tok[6], color)
-    return element
 
 @addToClass(AST.OpNode)
 def execute(self, indent_level=0):
-    args = [c.tok for c in self.children]
-    return "{} {} {}".format(args[0], self.op, args[1])
+    args = [c.execute() for c in self.children]
+    if len(args) == 1:
+        args.insert(0, 0)
+    return reduce(operations[self.op], args)
 
 @addToClass(AST.AssignNode)
 def execute(self, indent_level=0):
     str_indent = get_indent(indent_level)
-    file.write("{}{} = {}".format(str_indent, self.children[0].tok, self.children[1].execute()))
-    if self.children[1].type == "element":
+    file.write("{}{} = {}\n".format(str_indent, self.children[0].tok, self.children[1].execute()))
+    c_type = self.children[1].type
+    if c_type == "ball" or c_type == "rectangle" or c_type == "triangle":
         objects[self.children[0].tok] = self.children[1].execute(indent_level)
         file.write("{}objects.append({})\n".format(str_indent, self.children[0].tok))
     else:
@@ -160,12 +135,42 @@ def execute(self, indent_level=0):
 @addToClass(AST.FloatNode)
 def execute(self, indent_level=0):
     return self.value
+	
+@addToClass(AST.ColorNode)
+def execute(self, indent_level=0):
+    return self.value
+	
+@addToClass(AST.BallNode)
+def execute(self, indent_level=0):
+    args = [self.children[i].execute() for i in range(1, len(self.children))]
+    if len(args) == 3:
+        args.append([255, 255, 255]) # default value color white
+    return "Ball({}, {}, {}, {})\n".format(*args)
+	
+@addToClass(AST.RectangleNode)
+def execute(self, indent_level=0):
+    args = [self.children[i].execute() for i in range(1, len(self.children))]
+    if len(args) == 4:
+        args.append([255, 255, 255]) # default value color white
+    return "Rectangle({}, {}, {}, {}, {})\n".format(*args)
+	
+@addToClass(AST.TriangleNode)
+def execute(self, indent_level=0):
+    args = [self.children[i].execute() for i in range(1, len(self.children))]
+    if len(args) == 6:
+        args.append([255, 255, 255]) # default value color white
+    return "Triangle({}, {}, {}, {}, {}, {}, {})\n".format(*args)
 		
 @addToClass(AST.RotateNode)
 def execute(self, indent_level=0):
     str_indent = get_indent(indent_level)
     element = objects.get(self.children[0].tok)
-    alpha = self.children[1].execute()
+    alpha_node = self.children[1].execute()
+    if isinstance(alpha_node, AST.TokenNode):
+        print("TEST")
+        alpha = alpha_node.execute()
+    else:
+        alpha = alpha_node
     file.write("{}{}.rotate({})\n".format(str_indent, self.children[0].tok, alpha))
     file.write("{}{}.draw(pygame, screen)\n".format(str_indent, self.children[0].tok))
 
@@ -214,3 +219,4 @@ if __name__ == "__main__":
     prog = open(path).read()
     ast = parserAnim.parse(prog)
     ast.execute()
+    os.system("test.py")

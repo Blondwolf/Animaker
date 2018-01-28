@@ -153,6 +153,15 @@ class FloatNode(Node):
     def __repr__(self):
         return repr(self.value)
 		
+class ColorNode(Node):
+    type = 'color'
+    def __init__(self, value):
+        Node.__init__(self)
+        self.value = str(value)
+        
+    def __repr__(self):
+        return repr(self.value)
+		
 class TickNode(Node):
     type = 'tick'
     def __init__(self, value):
@@ -170,16 +179,16 @@ class TypeNode(Node):
         
     def __repr__(self):
         return repr(self.tok)
-
-class ElementNode(Node):
-    type = 'element'
-    def __init__(self, tok):
-        Node.__init__(self)
-        self.tok = tok
-        
-    def __repr__(self):
-        return repr(self.tok)
-
+		
+class BallNode(Node):
+    type = 'ball'
+	
+class RectangleNode(Node):
+    type = 'ball'
+	
+class TriangleNode(Node):
+    type = 'ball'
+	
 class MoveNode(Node):
     type = 'move'
 

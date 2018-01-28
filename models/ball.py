@@ -1,6 +1,5 @@
 from models.element import Element
 from geometry.move import Move
-from geometry.rotate import Rotate
 
 class Ball(Element):
     def __init__(self, posX, posY, radius, color=[255,255,255]):

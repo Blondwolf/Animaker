@@ -52,8 +52,12 @@ def p_expression_identifier(p):
     p[0] = AST.TokenNode(p[1])
 
 def p_expression_num(p):
-    """expression : type"""
-    p[0] = AST.TokenNode(p[1])
+    """expression : INTEGER
+    | FLOAT"""
+    if isinstance(p[1], int):
+        p[0] = AST.IntNode(p[1])
+    elif isinstance(p[1], float):
+        p[0] = AST.FloatNode(p[1])
 
 def p_expression_addop(p):
     """expression : expression ADD_OP expression
@@ -74,11 +78,9 @@ def p_error(p):
 
 ###     Expressions Animaker     ###
 
-def p_type_number(p):
-    """type : INTEGER
-    | FLOAT"""
-    p[0] = AST.TypeNode(p[1])
-	
+#def p_object_param(p):
+
+
 def p_int_number(p):
     """int : INTEGER"""
     p[0] = AST.IntNode(p[1])
@@ -86,41 +88,45 @@ def p_int_number(p):
 def p_float_number(p):
     """float : FLOAT"""
     p[0] = AST.FloatNode(p[1])
+	
+def p_color_value(p):
+    """color : COLOR"""
+    p[0] = AST.ColorNode(p[1])
 
 def p_expression_pi(p):
     """expression : PI"""
     p[0] = AST.FloatNode(3.1415926535)  #A voir !NUMBER? pas geré sinon comme un number
 
 def p_expression_ball(p):
-    """expression : BALL INTEGER ',' INTEGER ',' INTEGER
-    | BALL INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
+    """expression : BALL int ',' int ',' int
+    | BALL int ',' int ',' int ',' color"""
     if len(p) == 7:
-        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6]])
+        p[0] = AST.BallNode([AST.TokenNode(p[1]), p[2], p[4], p[6]])
     elif len(p) == 9:
-        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8]])
+        p[0] = AST.BallNode([AST.TokenNode(p[1]), p[2], p[4], p[6], p[8]])
 
 def p_expression_rectangle(p):
-    """expression : RECTANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER
-    | RECTANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
+    """expression : RECTANGLE int ',' int ',' int ',' int
+    | RECTANGLE int ',' int ',' int ',' int ',' color"""
     if len(p) == 9:
-        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8]])
+        p[0] = AST.RectangleNode([AST.TokenNode(p[1]), p[2], p[4], p[6], p[8]])
     elif len(p) == 11:
-        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8], p[10]])
+        p[0] = AST.RectangleNode([AST.TokenNode(p[1]), p[2], p[4], p[6], p[8], p[10]])
 	
 def p_expressiom_triangle(p):
-    """expression : TRIANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER
-    | TRIANGLE INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' INTEGER ',' COLOR"""
+    """expression : TRIANGLE int ',' int ',' int ',' int ',' int ',' int
+    | TRIANGLE int ',' int ',' int ',' int ',' int ',' int ',' color"""
     if len(p) == 13:
-        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12]])
+        p[0] = AST.TriangleNode([AST.TokenNode(p[1]), p[2], p[4], p[6], p[8], p[10], p[12]])
     elif len(p) == 15:
-        p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12], p[14]])
+        p[0] = AST.TriangleNode([AST.TokenNode(p[1]), p[2], p[4], p[6], p[8], p[10], p[12], p[14]])
 
 def p_expression_move(p):
     """statement : MOVE IDENTIFIER int int"""
     p[0] = AST.MoveNode([AST.TokenNode(p[2]), p[3], p[4]])
 
 def p_expression_rotate(p):
-    """statement : ROTATE IDENTIFIER float"""
+    """statement : ROTATE IDENTIFIER expression"""
     p[0] = AST.RotateNode([AST.TokenNode(p[2]), p[3]])
 	
 def p_expression_translate(p):

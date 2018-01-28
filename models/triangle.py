@@ -1,6 +1,5 @@
 from models.element import Element
 from geometry.move import Move
-from geometry.rotate import Rotate
 
 class Triangle(Element):
     def __init__(self, posX1, posY1, posX2, posY2, posX3, posY3, color=[255,255,255]):
