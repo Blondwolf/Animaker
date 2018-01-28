@@ -30,17 +30,17 @@ if __name__ == '__main__':
         p = 10
         ball0.translate(-50, -50)
         ball0.draw(pygame, screen)
-        rect0.rotate(1.57079632675)
+        rect0.rotate(3.1415926535 / 2)
         rect0.draw(pygame, screen)
         while(p):
             screen.fill(0)
             ball0.translate(5, 5)
             ball0.draw(pygame, screen)
-            p = 8
+            p = p - 2
             c = 2
             while(c):
                 screen.fill(0)
-                c = 1
+                c = c - 1
                 refresh_screen(objects, pygame, screen)
                 pygame.display.update()
                 time.sleep(tick/1000)
@@ -53,7 +53,7 @@ if __name__ == '__main__':
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit(0)
-        t = 9
+        t = t - 1
         refresh_screen(objects, pygame, screen)
         pygame.display.update()
         time.sleep(tick/1000)

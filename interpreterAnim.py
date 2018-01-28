@@ -1,6 +1,9 @@
 import AST
 from AST import addToClass
 from functools import reduce
+from models.ball import Ball
+from models.rectangle import Rectangle
+from models.triangle import Triangle
 import os
 import math
 
@@ -95,10 +98,13 @@ def execute(self, indent_level=0):
 
 @addToClass(AST.OpNode)
 def execute(self, indent_level=0):
-    args = [c.execute() for c in self.children]
-    if len(args) == 1:
-        args.insert(0, 0)
-    return reduce(operations[self.op], args)
+    args = []
+    for c in self.children:
+        if isinstance(c, AST.FloatNode) or isinstance(c, AST.IntNode):
+            args.append(c.execute())
+        else:
+            args.append(c.tok)
+    return "{} {} {}".format(args[0], self.op, args[1])
 
 @addToClass(AST.AssignNode)
 def execute(self, indent_level=0):
