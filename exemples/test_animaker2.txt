@@ -6,14 +6,24 @@ show ball0;
 show rect0;
 show triangle0;
 
-move ball0 50.0 50.0;
-move rect0 50.0 50.0;
-move triangle0 50.0 50.0;
+move ball0 50.0 0.0;
+move rect0 0.0 50.0;
+move triangle0 50.0 0.0;
 
 show ball0;
 show rect0;
 show triangle0;
 
+move ball0 50.0 0.0;
+move rect0 0.0 50.0;
+move triangle0 50.0 0.0;
+
 rotate rect0 0.785;
+rotate rect0 0.785;
+rotate rect0 0.785;
+
+show ball0;
+show rect0;
+show triangle0;
 
 
