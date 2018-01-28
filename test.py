@@ -12,8 +12,8 @@ def refresh_screen(objects, pygame, screen):
 if __name__ == '__main__':
     pygame.init()
     objects=[]
-    screen = pygame.display.set_mode((800, 600))
-    tick=80
+    screen = pygame.display.set_mode((1200, 800))
+    tick=60
     ball0 = Ball(750, 550, 20, [0, 255, 255])
 
     objects.append(ball0)
@@ -60,7 +60,6 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit(0)
-    screen = pygame.display.set_mode((800, 600))
     pygame.display.flip()
     running = 1
     while running:

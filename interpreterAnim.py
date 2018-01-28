@@ -67,22 +67,26 @@ def write_refresh_screen(indent_level=0):
     file.write("{}refresh_screen(objects, pygame, screen)\n".format(str_indent))
     file.write("{}pygame.display.update()\n".format(str_indent))
     file.write("{}time.sleep(tick/1000)\n".format(str_indent))
+	
+def check_screen(children):
+    for c in children:
+        if isinstance(c, AST.ScreenNode):
+            return True
+    return False
 
 @addToClass(AST.ProgramNode)
 def execute(self, indent_level=0):
     global file
     global objects
     global tick
-    global screen_define
-    screen_define = False
     tick=100# default
     file = open("test.py", 'w')
     write_header()
+    if not check_screen(self.children):
+        file.write("    screen = pygame.display.set_mode((800, 600))\n")
     indent_level = 4
     for c in self.children:
         c.execute(indent_level)
-    if not screen_define:
-        file.write("    screen = pygame.display.set_mode((800, 600))\n")
     write_footer()
     write_moves()
     file.close()
@@ -173,7 +177,6 @@ def execute(self, indent_level=0):
     element = objects.get(self.children[0].tok)
     alpha_node = self.children[1].execute()
     if isinstance(alpha_node, AST.TokenNode):
-        print("TEST")
         alpha = alpha_node.execute()
     else:
         alpha = alpha_node
@@ -209,7 +212,6 @@ def execute(self, indent_level=0):
     if indent_level > 4: # screen should define in begin of program
         return
     str_indent = get_indent(indent_level)
-    screen_define = True
     file.write("{}screen = pygame.display.set_mode(({}, {}))\n".format(str_indent, self.children[0].execute(), self.children[1].execute()))
 
 if __name__ == "__main__":
