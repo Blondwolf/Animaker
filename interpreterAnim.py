@@ -227,4 +227,4 @@ if __name__ == "__main__":
     prog = open(path).read()
     ast = parserAnim.parse(prog)
     ast.execute()
-    os.system("test.py")
+    os.system("python test.py")

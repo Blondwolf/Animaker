@@ -1,5 +1,6 @@
 from models.element import Element
 from geometry.move import Move
+from math import cos, sin, radians
 
 class Triangle(Element):
     def __init__(self, posX1, posY1, posX2, posY2, posX3, posY3, color=[255,255,255]):
@@ -33,12 +34,9 @@ class Triangle(Element):
         y = new_y + centerY
         return x, y
 		
+	# mathmatiquement un peu compliqué
     def rotate(self, alpha):
-        centerX = self.posX + (self.width / 2)
-        centerY = self.posY + (self.height / 2)
-        self.posX, self.posY = self.rotate_point(self.posX, self.posY, centerX, centerY, alpha)
-        self.posX2, self.posY2 = self.rotate_point(self.posX2, self.posY2, centerX, centerY, alpha)
-        self.posX3, self.posY3 = self.rotate_point(self.posX3, self.posY3, centerX, centerY, alpha)
+        pass
 
     def translate(self, x, y):
         self.posX += x
