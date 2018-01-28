@@ -193,7 +193,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         prog = sys.argv[1]
     else:
-        path = "exemples/test_animaker2.txt"
+        path = "exemples/test_final.txt"
 
     prog = open(path).read()
     ast = parserAnim.parse(prog)
