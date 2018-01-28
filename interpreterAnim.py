@@ -2,6 +2,8 @@ import AST
 from AST import addToClass
 from functools import reduce
 
+import math
+
 operations = {
     '+' : lambda x,y: x+y,
     '-' : lambda x,y: x-y,
@@ -98,9 +100,43 @@ def execute(self):
 		
 @addToClass(AST.RotateNode)
 def execute(self):
-    pass
-    #while self.children[0].execute():
-    #    self.children[1].execute()
+    object_geom = vars.get(self.children[0].tok)
+    type = object_geom[0].lower()
+    angle = self.children[1].execute()
+
+    if type == "ball":
+        pass
+    if type == "rectangle":
+        centerX = (object_geom[1]+object_geom[3])/2
+        centerY = (object_geom[2]+object_geom[4])/2
+        deltaX, deltaY = rotate_point(centerX, centerY, angle, object_geom[1], object_geom[2])
+        deltaX2, deltaY2 = rotate_point(centerX, centerY, angle, object_geom[3], object_geom[4])
+        object_geom[1] = deltaX
+        object_geom[2] = deltaY
+        object_geom[3] = deltaX2
+        object_geom[4] = deltaY2
+    if type == "triangle":
+        """object_geom[3] += deltaX
+        object_geom[4] += deltaY
+        object_geom[5] += deltaX
+        object_geom[6] += deltaY"""
+
+def rotate_point(centerX, centerY, angle, posX, posY):
+  s = math.sin(angle)
+  c = math.cos(angle)
+
+  #translate point back to origin:
+  posX -= centerX
+  posY -= centerY
+
+  #rotate point
+  xnew = posX * c - posY * s
+  ynew = posX * s + posY * c
+
+  #translate point back:
+  posX = xnew + centerX
+  posY = ynew + centerY
+  return posX, posY
 		
 @addToClass(AST.MoveNode)
 def execute(self):
@@ -128,7 +164,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         prog = sys.argv[1]
     else:
-        path = "exemples/test_animaker2.txt"
+        path = "exemples/test_final.txt"
 
     prog = open(path).read()
     ast = parserAnim.parse(prog)

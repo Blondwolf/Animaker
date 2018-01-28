@@ -1,5 +1,5 @@
-ball0 = Ball 0, 0, 50;
-rect0 = Rectangle 100, 0, 100, 100;
+ball0 = Ball 1020, 20, 50;
+rect0 = Rectangle 0, 1050, 100, 100;
 
 t = 100;
 
@@ -9,8 +9,8 @@ show rect0;
 while(t){
     print t;
 
-    move rect0 10, 10;
-    rotate ball0 PI/4;
+    move ball0 -10 0;
+    move rect0 0 -10;
 
     show ball0;
     show rect0;

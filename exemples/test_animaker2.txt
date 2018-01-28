@@ -6,27 +6,13 @@ show ball0;
 show rect0;
 show triangle0;
 
-<<<<<<< HEAD
-move ball0 50.0 0.0;
-move rect0 0.0 50.0;
-move triangle0 50.0 0.0;
-=======
-move ball0 50 50;
-move rect0 50 50;
-move triangle0 50 50;
->>>>>>> 361759e81b514ff0abce9b793902c32c88d5d7ce
+move ball0 50 0;
+move rect0 0 50;
+move triangle0 50 0;
 
-show ball0;
-show rect0;
-show triangle0;
-
-move ball0 50.0 0.0;
-move rect0 0.0 50.0;
-move triangle0 50.0 0.0;
-
+rotate ball0 0.785;
 rotate rect0 0.785;
-rotate rect0 0.785;
-rotate rect0 0.785;
+rotate triangle0 0.785;
 
 show ball0;
 show rect0;
