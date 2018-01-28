@@ -16,11 +16,11 @@ class Element(object):
         pass
 		
     @abstractmethod
-    def add_rotate(self, alpha):
+    def translate(self, x, y):
         pass
 		
     @abstractmethod
-    def translate(self):
+    def rotate(self, alpha):
         pass
 		
     @abstractmethod

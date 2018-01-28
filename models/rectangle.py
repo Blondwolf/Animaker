@@ -1,6 +1,7 @@
 from models.element import Element
 from geometry.move import Move
 from geometry.rotate import Rotate
+import math
 
 class Rectangle(Element):
     def __init__(self, posX, posY, width, height, color=[255, 255, 255]):
@@ -16,13 +17,16 @@ class Rectangle(Element):
         return (self.posX+self.width)/2, (self.posY+self.height)/2
 		
     def draw(self, pygame, screen):
-        pygame.draw.rect(screen, self.color, (self.posX, self.posY, self.width, self.height))
+        pygame.draw.polygon(screen, self.color, [(self.posX, self.posY), (self.posX, self.posY + self.height), (self.posX + self.width, self.posY + self.height), (self.posX + self.width, self.posY)])
 		
     def add_move(self, x, y):
         self.moves.append(Move(x, y))
 		
-    def add_rotate(self, alpha):
-        pass
+    def rotate(self, alpha):
+        centerX = self.posX + (self.width / 2)
+        centerY = self.posY + (self.height / 2)
+        self.posX = math.cos(alpha) * self.posX - math.sin(alpha) * self.posY
+        self.posY = math.sin(alpha) * self.posX + math.cos(alpha) *self.posY
 		
     def translate(self, x, y):
         self.posX += x

@@ -20,7 +20,8 @@ class Ball(Element):
     def add_move(self, x, y):
         self.moves.append(Move(x, y))
 		
-    def add_rotate(self, alpha):
+    # useless rotate a circle 
+    def rotate(self, alpha):
         pass
 
     def translate(self, x, y):

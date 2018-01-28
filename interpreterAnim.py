@@ -16,7 +16,7 @@ operations = {
 
 vars={}
 objects={}
-
+  
 def write_exit(indent_level):
     str_indent = get_indent(indent_level)
     file.write("{}for event in pygame.event.get():\n".format(str_indent))
@@ -163,43 +163,28 @@ def execute(self, indent_level=0):
 		
 @addToClass(AST.RotateNode)
 def execute(self, indent_level=0):
-    object_geom = objects.get(self.children[0].tok)
-    type = object_geom[0].lower()
-    angle = self.children[1].execute()
-
-    if type == "ball":
-        pass
-    if type == "rectangle":
-        centerX = (object_geom[1]+object_geom[3])/2
-        centerY = (object_geom[2]+object_geom[4])/2
-        deltaX, deltaY = rotate_point(centerX, centerY, angle, object_geom[1], object_geom[2])
-        deltaX2, deltaY2 = rotate_point(centerX, centerY, angle, object_geom[3], object_geom[4])
-        object_geom[1] = deltaX
-        object_geom[2] = deltaY
-        object_geom[3] = deltaX2
-        object_geom[4] = deltaY2
-    if type == "triangle":
-        """object_geom[3] += deltaX
-        object_geom[4] += deltaY
-        object_geom[5] += deltaX
-        object_geom[6] += deltaY"""
-
-def rotate_point(centerX, centerY, angle, posX, posY):
-  s = math.sin(angle)
-  c = math.cos(angle)
-
-  #translate point back to origin:
-  posX -= centerX
-  posY -= centerY
-
-  #rotate point
-  xnew = posX * c - posY * s
-  ynew = posX * s + posY * c
-
-  #translate point back:
-  posX = xnew + centerX
-  posY = ynew + centerY
-  return posX, posY
+    str_indent = get_indent(indent_level)
+    element = objects.get(self.children[0].tok)
+    alpha = self.children[1].execute()
+    file.write("{}{}.rotate({})\n".format(str_indent, self.children[0].tok, alpha))
+    file.write("{}{}.draw(pygame, screen)\n".format(str_indent, self.children[0].tok))
+#
+#    if type == "ball":
+#        pass
+#    if type == "rectangle":
+#        centerX = (object_geom[1]+object_geom[3])/2
+ #       centerY = (object_geom[2]+object_geom[4])/2
+  #      deltaX, deltaY = rotate_point(centerX, centerY, angle, object_geom[1], object_geom[2])
+  ##      deltaX2, deltaY2 = rotate_point(centerX, centerY, angle, object_geom[3], object_geom[4])
+  #      object_geom[1] = deltaX
+  #      object_geom[2] = deltaY
+  #      object_geom[3] = deltaX2
+  #      object_geom[4] = deltaY2
+  #  if type == "triangle":
+  #      """object_geom[3] += deltaX
+  #      object_geom[4] += deltaY
+  #      object_geom[5] += deltaX
+  #      object_geom[6] += deltaY"""
 		
 @addToClass(AST.MoveNode)
 def execute(self, indent_level=0):
@@ -211,10 +196,10 @@ def execute(self, indent_level=0):
 	
 @addToClass(AST.TranslateNode)
 def execute(self, indent_level=0):
+    str_indent = get_indent(indent_level)
     element = objects.get(self.children[0].tok)
     translate_x = self.children[1].execute()
     translate_y = self.children[2].execute()
-    str_indent = get_indent(indent_level)
     file.write("{}{}.translate({}, {})\n".format(str_indent, self.children[0].tok, translate_x, translate_y))
     file.write("{}{}.draw(pygame, screen)\n".format(str_indent, self.children[0].tok))
 	
