@@ -161,16 +161,6 @@ class TickNode(Node):
         
     def __repr__(self):
         return repr(self.value)
-		
-class TypeNode(Node):
-    type = 'type'
-    def __init__(self, tok):
-        Node.__init__(self)
-        print(tok)
-        self.tok = tok
-        
-    def __repr__(self):
-        return repr(self.tok)
 
 class ElementNode(Node):
     type = 'element'
@@ -180,9 +170,12 @@ class ElementNode(Node):
         
     def __repr__(self):
         return repr(self.tok)
-
-class ShowNode(Node):
-    type = 'show'
+		
+class ScreenNode(Node):
+    type = 'screen'
+		
+class TranslateNode(Node):
+    type = 'translate'
 
 class MoveNode(Node):
     type = 'move'

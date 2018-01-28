@@ -18,7 +18,11 @@ class Element(object):
     @abstractmethod
     def add_rotate(self, alpha):
         pass
-
+		
+    @abstractmethod
+    def translate(self):
+        pass
+		
     @abstractmethod
     def move(self):
         pass

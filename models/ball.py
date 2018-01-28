@@ -22,6 +22,10 @@ class Ball(Element):
 		
     def add_rotate(self, alpha):
         pass
+
+    def translate(self, x, y):
+        self.posX += x
+        self.posY += y
 		
     def move(self):
         if len(self.moves) > 0:

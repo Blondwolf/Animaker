@@ -1,19 +1,26 @@
-ball0 = Ball 1020, 20, 50;
-rect0 = Rectangle 0, 1050, 100, 100;
+screen 800 600;
+tick 80;
+ball0 = Ball 750, 550, 20, [0, 255, 255];
+rect0 = Rectangle 10, 400, 100, 20;
 
-t = 100;
-
-show ball0;
-show rect0;
+t = 10;
 
 while(t){
     print t;
-
-    move ball0 -10 0;
-    move rect0 0 -10;
-
-    show ball0;
-    show rect0;
-
+	p = 10;
+    translate ball0 -50 -50;
+    translate rect0 50 -60;
+    while(p){
+	    translate ball0 5 5;
+	    translate rect0 -6 8;
+		p = p - 2;
+		c = 2;
+		while(c){
+	       translate rect0 1 1;
+		   c = c - 1;
+		};
+	};
     t = t - 1;
 };
+
+move ball0 50 50;

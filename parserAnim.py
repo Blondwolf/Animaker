@@ -77,7 +77,7 @@ def p_error(p):
 def p_type_number(p):
     """type : INTEGER
     | FLOAT"""
-    p[0] = AST.TypeNode(p[1])
+    p[0] = p[1]
 	
 def p_int_number(p):
     """int : INTEGER"""
@@ -115,6 +115,10 @@ def p_expressiom_triangle(p):
     elif len(p) == 15:
         p[0] = AST.ElementNode([p[1], p[2], p[4], p[6], p[8], p[10], p[12], p[14]])
 
+def p_expression_translate(p):
+    """statement : TRANSLATE IDENTIFIER int int"""
+    p[0] = AST.TranslateNode([AST.TokenNode(p[2]), p[3], p[4]])
+	
 def p_expression_move(p):
     """statement : MOVE IDENTIFIER int int"""
     p[0] = AST.MoveNode([AST.TokenNode(p[2]), p[3], p[4]])
@@ -122,14 +126,14 @@ def p_expression_move(p):
 def p_expression_rotate(p):
     """statement : ROTATE IDENTIFIER float"""
     p[0] = AST.RotateNode([AST.TokenNode(p[2]), p[3]])
-
-def p_expression_show(p):
-    """statement : SHOW expression"""
-    p[0] = AST.ShowNode(p[2])
 	
 def p_expression_tick(p):
     """statement : TICK int"""
     p[0] = AST.TickNode(p[2])
+	
+def p_expression_screen(p):
+    """statement : SCREEN int int"""
+    p[0] = AST.ScreenNode([p[2], p[3]])
 
 ###     Yacc and decorator      ###
 
@@ -153,7 +157,7 @@ if __name__ == '__main__':
     if len(sys.argv)>1:
         prog = sys.argv[1]
     else:
-        path = "exemples/test_animaker2.txt"
+        path = "exemples/test_final.txt"
 
     if path is not None:
         prog = open(path).read()

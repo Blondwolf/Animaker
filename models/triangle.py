@@ -25,7 +25,15 @@ class Triangle(Element):
 		
     def add_rotate(self, alpha):
         pass
-
+	
+    def translate(self, x, y):
+        self.posX += x
+        self.posY += y
+        self.posX2 += x
+        self.posY2 += y
+        self.posX3 += x
+        self.posY3 += y
+		
     def move(self):
         if len(self.moves) > 0:
             move = self.moves[0]
