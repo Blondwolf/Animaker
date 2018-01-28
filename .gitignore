@@ -3,6 +3,7 @@
 .idea/*
 __pycache__/*
 generated/*
+*.pyc
 
 # Created by https://www.gitignore.io/api/pycharm
 
