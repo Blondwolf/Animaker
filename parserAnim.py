@@ -84,7 +84,7 @@ def p_int_number(p):
     p[0] = AST.IntNode(p[1])
 	
 def p_float_number(p):
-    """float : INTEGER"""
+    """float : FLOAT"""
     p[0] = AST.FloatNode(p[1])
 
 def p_expression_pi(p):

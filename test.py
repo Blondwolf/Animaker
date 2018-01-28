@@ -25,22 +25,16 @@ if __name__ == '__main__':
         p = 10
         ball0.translate(-50, -50)
         ball0.draw(pygame, screen)
-        rect0.translate(50, -60)
-        rect0.draw(pygame, screen)
-        rect0.rotate(90.0)
+        rect0.rotate(1.5707)
         rect0.draw(pygame, screen)
         while(p):
             screen.fill(0)
             ball0.translate(5, 5)
             ball0.draw(pygame, screen)
-            rect0.translate(-6, 8)
-            rect0.draw(pygame, screen)
             p = p - 2
             c = 2
             while(c):
                 screen.fill(0)
-                rect0.translate(1, 1)
-                rect0.draw(pygame, screen)
                 c = c - 1
                 refresh_screen(objects, pygame, screen)
                 pygame.display.update()

@@ -9,15 +9,12 @@ while(t){
     print t;
 	p = 10;
     translate ball0 -50 -50;
-    translate rect0 50 -60;
-    rotate rect0 90;
+    rotate rect0 1.5707;
     while(p){
 	    translate ball0 5 5;
-	    translate rect0 -6 8;
 		p = p - 2;
 		c = 2;
 		while(c){
-	       translate rect0 1 1;
 		   c = c - 1;
 		};
 	};
